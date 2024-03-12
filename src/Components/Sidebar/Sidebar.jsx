@@ -9,6 +9,7 @@ import {
   SearchLogo,
 } from "../../assets/constants";
 import { BiLogOut } from "react-icons/bi";
+import useLogout from "../../hooks/useLogout";
 const Sidebar = () => {
   const sidebarItems = [
     {
@@ -34,6 +35,7 @@ const Sidebar = () => {
       link: "/asaprogrammer",
     },
   ];
+  const [handleLogout, isLoggingOut] = useLogout();
   return (
     <Box
       height={"100vh"}
@@ -100,6 +102,7 @@ const Sidebar = () => {
             </Tooltip>
           ))}
         </Flex>
+        {/*LOGOUT */}
         <Tooltip
           hasArrow
           label={"Logout"}
@@ -108,11 +111,9 @@ const Sidebar = () => {
           openDelay={500}
           display={{ base: "block", md: "none" }}
         >
-          <Link
-            display={"flex"}
-            to={"/auth"}
+          <Flex
+            onClick={handleLogout}
             alignItems={"center"}
-            as={RouterLink}
             gap={4}
             _hover={{
               bg: "whiteAlpha.400",
@@ -121,11 +122,18 @@ const Sidebar = () => {
             p={2}
             w={{ base: 10, md: "full" }}
             justifyContent={{ base: "center", md: "flex-start" }}
-			mt={"auto"}
+            mt={"auto"}
           >
             <BiLogOut size={25} />
-            <Box display={{ base: "none", md: "block" }}>Logout</Box>
-          </Link>
+            <Button
+              display={{ base: "none", md: "block" }}
+              variant={"ghost"}
+              _hover={{ bg: "transparent" }}
+              isLoading={isLoggingOut}
+            >
+              Logout
+            </Button>
+          </Flex>
         </Tooltip>
       </Flex>
     </Box>
