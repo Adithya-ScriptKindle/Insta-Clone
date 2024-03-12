@@ -9,7 +9,7 @@ import {
   SearchLogo,
 } from "../../assets/constants";
 import { BiLogOut } from "react-icons/bi";
-import useLogout from "../../hooks/useLogout";
+import { useLogout } from "../../hooks/useLogout";
 const Sidebar = () => {
   const sidebarItems = [
     {
@@ -35,7 +35,7 @@ const Sidebar = () => {
       link: "/asaprogrammer",
     },
   ];
-  const [handleLogout, isLoggingOut] = useLogout();
+  const {handleLogout, isLoggingOut} = useLogout();
   return (
     <Box
       height={"100vh"}
