@@ -1,48 +1,59 @@
-import {Input,InputGroup,InputRightElement,Button} from '@chakra-ui/react';
-import { useState } from 'react';
+import { Input, InputGroup, InputRightElement, Button,Alert,AlertIcon} from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+import { useLogin } from "../../hooks/useLogin.js";
 const Login = () => {
-const [show, setShow] = useState(false);
-const handleClick = () => setShow(!show);
-const [inputs, setInputs] = useState({
+  const [showPassword, setShowPassword] = useState(false);
+  const [inputs, setInputs] = useState({
     email: "",
     passowrd: "",
   });
-
+  const { loading, error, login } = useLogin();
   return (
     <>
-    <Input
-            placeholder="Enter email address"
-            fontSize={14}
-            cursor={"pointer"}
-            value={inputs.email}
-            type="email"
-            size={"md"}
-            onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-          ></Input>
-          <InputGroup size="md">
-            <Input
-              fontSize={14}
-              pr="4.5rem"
-              type={show ? "text" : "password"}
-              placeholder="Enter password"
-              cursor={"pointer"}
-              size={"md"}
-              value={inputs.passowrd}
-              onChange={(e) =>
-                setInputs({ ...inputs, passowrd: e.target.value })
-              }
-            />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleClick}>
-                {show ? "Hide" : "Show"}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          <Button w={"full"} colorScheme="blue" size={"sm"} fontSize={14}>
-            Log In
-          </Button>
+      <Input
+        placeholder="Enter email address"
+        fontSize={14}
+        cursor={"pointer"}
+        value={inputs.email}
+        type="email"
+        size={"md"}
+        onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+      ></Input>
+      <InputGroup>
+				<Input
+					placeholder='Password'
+					fontSize={14}
+					type={showPassword ? "text" : "password"}
+					value={inputs.password}
+					size={"sm"}
+					onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+				/>
+				<InputRightElement h='full'>
+					<Button variant={"ghost"} size={"sm"} onClick={() => setShowPassword(!showPassword)}>
+						{showPassword ? <ViewIcon /> : <ViewOffIcon />}
+					</Button>
+				</InputRightElement>
+			</InputGroup>
+
+      {error && (
+        <Alert status="error" fontSize={13} p={2} borderRadius={4}>
+          <AlertIcon fontSize={12} />
+          {error.message}
+        </Alert>
+      )}
+      <Button
+        w={"full"}
+        colorScheme="blue"
+        size={"sm"}
+        fontSize={14}
+        isLoading={loading}
+        onClick={() => login(inputs)}
+      >
+        Log In
+      </Button>
     </>
-  )
+  );
 };
 
 export default Login;

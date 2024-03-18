@@ -9,7 +9,7 @@ import {
   SearchLogo,
 } from "../../assets/constants";
 import { BiLogOut } from "react-icons/bi";
-import { useLogout } from "../../hooks/useLogout";
+import { useLogout } from "../../hooks/useLogout.js";
 const Sidebar = () => {
   const sidebarItems = [
     {
