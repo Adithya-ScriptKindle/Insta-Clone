@@ -17,7 +17,7 @@ function HomePage() {
           maxW={"300px"}
 
         >
-          <SuggestedUsers/>
+         <SuggestedUsers/>
         </Box>
       </Flex>
     </Container>

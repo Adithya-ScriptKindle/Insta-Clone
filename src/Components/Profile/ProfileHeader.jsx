@@ -6,11 +6,12 @@ import {
   Image,
   Text,
   VStack,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useUserProfileStore } from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
+import useFollowUser from "../../hooks/useFollowUser";
 const ProfileHeader = () => {
   const { userProfile } = useUserProfileStore();
   const authUser = useAuthStore((state) => state.user);
@@ -18,7 +19,10 @@ const ProfileHeader = () => {
     authUser && authUser.username == userProfile.username;
   const vistingAnotherProfileAndAuth =
     authUser && authUser.username !== userProfile.username;
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isFollowing, isUpdating, handleFollowUser } = useFollowUser(
+    userProfile?.uid
+  );
   return (
     <>
       <Flex
@@ -70,9 +74,11 @@ const ProfileHeader = () => {
                   color={"white"}
                   _hover={{ bg: "blue.600" }}
                   size={{ base: "xs", md: "sm" }}
+                  onClick={handleFollowUser}
+                  isLoading={isUpdating}
                 >
-                  Follow
-                </Button>
+                  {isFollowing ? "Unfollow" : "Follow"}                
+                  </Button>
               </Flex>
             )}
           </Flex>
@@ -103,7 +109,7 @@ const ProfileHeader = () => {
           </Flex>
           <Text fontSize={"sm"}>{userProfile.bio}</Text>
         </VStack>
-        {isOpen && <EditProfile isOpen={isOpen} onClose={onClose}/>}
+        {isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
       </Flex>
     </>
   );
