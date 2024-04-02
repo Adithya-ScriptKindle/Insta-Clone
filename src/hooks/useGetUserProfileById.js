@@ -14,9 +14,6 @@ const useGetUserProfileById = (userId) => {
       setUserProfile(null);
       try {
         const userRef = await getDoc(doc(firestore, "users", userId));
-        console.log(userRef);
-        console.log(userRef.exists());
-        console.log(userRef.data());
         if (userRef.exists()) {
           setUserProfile(userRef.data());
         }
@@ -28,7 +25,6 @@ const useGetUserProfileById = (userId) => {
     };
     getUserProfile();
   }, [showToast, setUserProfile, userId]);
-
   return { isLoading, userProfile, setUserProfile };
 };
 
